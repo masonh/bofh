@@ -9,7 +9,7 @@
  *
  * The original howto is included in the file 'readme.txt'
  *
- * If this file is compiled the bofhstatic defined, the lists in the code will
+ * If this file is compiled with bofhstatic defined, the lists in the code will
  * be used instead of external files.
  * If dumb is defined, the program will output the fourth word by default.
  * The compiled preference can be overridden with the -dumb or -ndumb arguments.
@@ -34,9 +34,9 @@
  */
 
 
-
 #define bofhstatic
 //#define dumb
+
 #include <cstdio>
 #ifdef WIN32
 #include <conio.h>
@@ -61,28 +61,16 @@ bool bstat=false;
 #endif				// disable builtin lists
 bool nstat=false;
 
-// fix for windows functions
-#ifdef WIN32
-#define strcpy strcpy_s
-#endif
-
 
 struct wordlist
 {
-//	int pos;	// was used to track char array overflows. not necessary
 	vector<string> word;
 };
 
 int bofhstat(string nothing, wordlist &st)
 {
-//	string datas;
-//	bool exitloop=false;
-//	st.pos=0;
-//	int pos1=0;
-//	int pos2=0;
 	if(nothing == "bofh1.dat") // list 1
 	{
-		//vector<string> datas = {
 		st.word = {
 			"Temporary",
 			"Intermittant",
@@ -142,7 +130,6 @@ int bofhstat(string nothing, wordlist &st)
 	}
 	else if(nothing == "bofh2.dat") // list 2
 	{
-		//vector<string> datas = {
 		st.word = {
 			"Array",
 			"Systems",
@@ -202,7 +189,6 @@ int bofhstat(string nothing, wordlist &st)
 	}
 	else if(nothing == "bofh3.dat") // list 3
 	{
-		//vector<string> datas = {
 		st.word = {
 			"Interruption",
 			"Destabilisation",
@@ -240,7 +226,6 @@ int bofhstat(string nothing, wordlist &st)
 	}
 	else if(nothing == "bofh4.dat") // list 4
 	{
-		//vector<string> datas = {
 		st.word = {
 			"Error",
 			"Problem",
@@ -275,15 +260,6 @@ int bofhstat(string nothing, wordlist &st)
 		return 0;
 	}
 
-	// read data into variables
-/*	for(int i = 0; i < datas.length; i++)
-	{
-		st.word[i].push_back(datas[i]);
-	}
-*/
-	// copy data into variables
-//	st.word = datas;
-
 	return 0;
 }
 
@@ -294,7 +270,6 @@ int structurise(string filename, wordlist &st)
 
 	ifstream datfile;
 	string templine;
-//	st.pos=0;
 
 	// start reading datafiles into variables
 	datfile.open(filename.c_str());
@@ -342,7 +317,6 @@ int main (int argc, char *argv[])
 	string list2 = "bofh2.dat";
 	string list3 = "bofh3.dat";
 	string list4 = "bofh4.dat";
-//	four.pos=0;
 	#ifdef dumb
 	bool dumb=true;
 	#else
@@ -457,21 +431,9 @@ int main (int argc, char *argv[])
 			cerr << "Fatal Error. Exiting..." << endl;
 			return 1;
 		}
-/*	if(!dumb) // set it to output nothing for the fourth word (and give back the space)
-	{
-		four.word[0]='\b';	// the last word is a backspace
-//		four.pos=1;
-	}
-*/
 
 	srand(time(NULL));	//seed random so we get unique output each second. this means the program won't work for mass-generating but for normal use it is fine. linux can seed via /dev/urandom but windows has no such device.
 
-/*	printf("%s %s %s %s\n",
-		one.word[rand()%one.pos],
-		two.word[rand()%two.pos],
-		three.word[rand()%three.pos],
-		four.word[rand()%four.pos]);	// pick a random word from each list and print them out.
-*/
 	if(dumb)
 		cout << one.word[rand()%one.word.size()] << " "
 			<< two.word[rand()%two.word.size()] << " "
