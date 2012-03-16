@@ -37,14 +37,20 @@
 
 #define bofhstatic
 //#define dumb
-#include <stdio.h>
+#include <cstdio>
 #ifdef WIN32
 #include <conio.h>
 #endif
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <ctype.h>
+#include <cstring>
+#include <cstdlib>
+#include <ctime>
+#include <ctype>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <initializer_list>
+#include <string>
+using namespace std;
 
 bool dump=false;	// default to not output data files
 
@@ -56,270 +62,266 @@ bool bstat=false;
 bool nstat=false;
 
 // fix for windows functions
-#ifndef WIN32
-#define strcpy_s strcpy
+#ifdef WIN32
+#define strcpy strcpy_s
 #endif
 
 
 struct wordlist
 {
-	int pos;
-	char word[256][64];
+//	int pos;	// was used to track char array overflows. not necessary
+	vector<string> word;
 };
 
-int bofhstat(char nothing[16], wordlist &st)
+int bofhstat(string nothing, wordlist &st)
 {
-	char datas[2048];
-	bool exitloop=false;
-	st.pos=0;
-	int pos1=0;
-	int pos2=0;
-	if(strcmp(nothing,"bofh1.dat")==0) // list 1
+//	string datas;
+//	bool exitloop=false;
+//	st.pos=0;
+//	int pos1=0;
+//	int pos2=0;
+	if(nothing == "bofh1.dat") // list 1
 	{
-		strcpy_s(datas,"\
-Temporary\n\
-Intermittant\n\
-Partial\n\
-Redundant\n\
-Total\n\
-Multiplexed\n\
-Inherent\n\
-Duplicated\n\
-Dual-Homed\n\
-Synchronous\n\
-Bidirectional\n\
-Serial\n\
-Asynchronous\n\
-Multiple\n\
-Replicated\n\
-Non-Replicated\n\
-Unregistered\n\
-Non-Specific\n\
-Generic\n\
-Migrated\n\
-Localised\n\
-Resignalled\n\
-Dereferenced\n\
-Nullified\n\
-Aborted\n\
-Serious\n\
-Minor\n\
-Major\n\
-Extraneous\n\
-Illegal\n\
-Insufficient\n\
-Viral\n\
-Unsupported\n\
-Outmoded\n\
-Legacy\n\
-Permanent\n\
-Invalid\n\
-Deprecated\n\
-Virtual\n\
-Unreportable\n\
-Undetermined\n\
-Undiagnosable\n\
-Unfiltered\n\
-Static\n\
-Dynamic\n\
-Delayed\n\
-Immediate\n\
-Nonfatal\n\
-Fatal\n\
-Non-Valid\n\
-Unvalidated\n\
-Non-Static\n\
-Unreplicatable\n\
-Non-Serious\n");
+		//vector<string> datas = {
+		st.word = {
+			"Temporary",
+			"Intermittant",
+			"Partial",
+			"Redundant",
+			"Total",
+			"Multiplexed",
+			"Inherent",
+			"Duplicated",
+			"Dual-Homed",
+			"Synchronous",
+			"Bidirectional",
+			"Serial",
+			"Asynchronous",
+			"Multiple",
+			"Replicated",
+			"Non-Replicated",
+			"Unregistered",
+			"Non-Specific",
+			"Generic",
+			"Migrated",
+			"Localised",
+			"Resignalled",
+			"Dereferenced",
+			"Nullified",
+			"Aborted",
+			"Serious",
+			"Minor",
+			"Major",
+			"Extraneous",
+			"Illegal",
+			"Insufficient",
+			"Viral",
+			"Unsupported",
+			"Outmoded",
+			"Legacy",
+			"Permanent",
+			"Invalid",
+			"Deprecated",
+			"Virtual",
+			"Unreportable",
+			"Undetermined",
+			"Undiagnosable",
+			"Unfiltered",
+			"Static",
+			"Dynamic",
+			"Delayed",
+			"Immediate",
+			"Nonfatal",
+			"Fatal",
+			"Non-Valid",
+			"Unvalidated",
+			"Non-Static",
+			"Unreplicatable",
+			"Non-Serious"
+		};
 	}
-	else if(strcmp(nothing,"bofh2.dat")==0) // list 2
+	else if(nothing == "bofh2.dat") // list 2
 	{
-		strcpy_s(datas,"\
-Array\n\
-Systems\n\
-Hardware\n\
-Software\n\
-Firmware\n\
-Backplane\n\
-Logic-Subsystem\n\
-Integrity\n\
-Subsystem\n\
-Memory\n\
-Comms\n\
-Integrity\n\
-Checksum\n\
-Protocol\n\
-Parity\n\
-Bus\n\
-Timing\n\
-Synchronisation\n\
-Topology\n\
-Transmission\n\
-Reception\n\
-Stack\n\
-Framing\n\
-Code\n\
-Programming\n\
-Peripheral\n\
-Environmental\n\
-Loading\n\
-Operation\n\
-Parameter\n\
-Syntax\n\
-Initialisation\n\
-Execution\n\
-Resource\n\
-Encryption\n\
-Decryption\n\
-File\n\
-Precondition\n\
-Authentication\n\
-Paging\n\
-Swapfile\n\
-Service\n\
-Gateway\n\
-Request\n\
-Proxy\n\
-Media\n\
-Registry\n\
-Configuration\n\
-Metadata\n\
-Streaming\n\
-Retrieval\n\
-Installation\n\
-Library\n\
-Handler\n");
+		//vector<string> datas = {
+		st.word = {
+			"Array",
+			"Systems",
+			"Hardware",
+			"Software",
+			"Firmware",
+			"Backplane",
+			"Logic-Subsystem",
+			"Integrity",
+			"Subsystem",
+			"Memory",
+			"Comms",
+			"Integrity",
+			"Checksum",
+			"Protocol",
+			"Parity",
+			"Bus",
+			"Timing",
+			"Synchronisation",
+			"Topology",
+			"Transmission",
+			"Reception",
+			"Stack",
+			"Framing",
+			"Code",
+			"Programming",
+			"Peripheral",
+			"Environmental",
+			"Loading",
+			"Operation",
+			"Parameter",
+			"Syntax",
+			"Initialisation",
+			"Execution",
+			"Resource",
+			"Encryption",
+			"Decryption",
+			"File",
+			"Precondition",
+			"Authentication",
+			"Paging",
+			"Swapfile",
+			"Service",
+			"Gateway",
+			"Request",
+			"Proxy",
+			"Media",
+			"Registry",
+			"Configuration",
+			"Metadata",
+			"Streaming",
+			"Retrieval",
+			"Installation",
+			"Library",
+			"Handler"
+		};
 	}
-	else if(strcmp(nothing,"bofh3.dat")==0) // list 3
+	else if(nothing == "bofh3.dat") // list 3
 	{
-		strcpy_s(datas,"\
-Interruption\n\
-Destabilisation\n\
-Destruction\n\
-Desynchronisation\n\
-Failure\n\
-Dereferencing\n\
-Overflow\n\
-Underflow\n\
-NMI\n\
-Interrupt\n\
-Corruption\n\
-Anomoly\n\
-Seizure\n\
-Override\n\
-Reclock\n\
-Rejection\n\
-Invalidation\n\
-Halt\n\
-Exhaustion\n\
-Infection\n\
-Incompatibility\n\
-Timeout\n\
-Expiry\n\
-Unavailability\n\
-Bug\n\
-Condition\n\
-Crash\n\
-Dump\n\
-Crashdump\n\
-Stackdump\n\
-Problem\n\
-Lockout\n");
+		//vector<string> datas = {
+		st.word = {
+			"Interruption",
+			"Destabilisation",
+			"Destruction",
+			"Desynchronisation",
+			"Failure",
+			"Dereferencing",
+			"Overflow",
+			"Underflow",
+			"NMI",
+			"Interrupt",
+			"Corruption",
+			"Anomoly",
+			"Seizure",
+			"Override",
+			"Reclock",
+			"Rejection",
+			"Invalidation",
+			"Halt",
+			"Exhaustion",
+			"Infection",
+			"Incompatibility",
+			"Timeout",
+			"Expiry",
+			"Unavailability",
+			"Bug",
+			"Condition",
+			"Crash",
+			"Dump",
+			"Crashdump",
+			"Stackdump",
+			"Problem",
+			"Lockout"
+		};
 	}
-	else if(strcmp(nothing,"bofh4.dat")==0) // list 4
+	else if(nothing == "bofh4.dat") // list 4
 	{
-		strcpy_s(datas,"\
-Error\n\
-Problem\n\
-Warning\n\
-Signal\n\
-Flag\n");
+		//vector<string> datas = {
+		st.word = {
+			"Error",
+			"Problem",
+			"Warning",
+			"Signal",
+			"Flag"
+		};
 	}
 	else
 	{
-		fprintf(stderr,"Error: '%s' is not a valid internal list.\n",nothing);
+		cerr << "Error: '" << nothing << "' is not a valid internal list." << endl;
 		return 1;
 	}
 
 	if(dump)
 	{
-		FILE* outf;
-		#ifdef WIN32
-		if((fopen_s(&outf,nothing,"w"))!=NULL)
-		#else
-		if((outf = fopen(nothing,"w"))!=NULL)
-		#endif
+		ofstream outf;
+		outf.open(nothing.c_str());
+		if((outf.is_open())
 		{
-			fprintf(outf,"%s",datas);
+			for(int i=0; i < st.word.length; i++)
+			{
+				outf << st.word[i] << '\n';
+			}
+			outf.close();
 		}
 		else{
-			fprintf(stderr,"Error: Could not open file '%s' for writing\n",nothing);
-			_fcloseall();
+			outf.close();
+			cerr << "Error: Could not open file '" << nothing << "' for writing" << endl;
 			return 1;
 		}
-		fclose(outf);
 		return 0;
 	}
 
-	// start reading data into variables
-	while (exitloop==false)
+	// read data into variables
+/*	for(int i = 0; i < datas.length; i++)
 	{
-		while(datas[pos2]!='\n')
-		{
-			st.word[st.pos][pos1]=datas[pos2];
-			pos2++;
-			pos1++;
-		}
-		st.pos++;
-		pos1=0;
-		pos2++;
-		if(datas[pos2]=='\0')
-			exitloop=true;
-		if(st.pos>255)
-			fprintf(stderr,"Error: %s internal list max length exceeded. Truncated.\n",nothing);
+		st.word[i].push_back(datas[i]);
 	}
+*/
+	// copy data into variables
+//	st.word = datas;
 
 	return 0;
 }
 
-int structurise(char filename[16], wordlist &st)
+int structurise(string filename, wordlist &st)
 {
-	if(bstat){
-		//printf("%s\n",filename);	//for debug
+	if(bstat)
 		return bofhstat(filename,st);
-	}
 
-	FILE* datfile;
-	char templine[64];
-	st.pos=0;
+	ifstream datfile;
+	string templine;
+//	st.pos=0;
 
 	// start reading datafiles into variables
-	#ifdef WIN32
-	if((fopen_s(&datfile,filename,"r"))==NULL)
-	#else
-	if((datfile = fopen(filename,"r"))==NULL)
-	#endif
+	datfile.open(filename.c_str());
+	if(!datfile.is_open())
 	{
-		fprintf(stderr,"Error: %s could not be opened for read.",filename);
-		if(!nstat){
-			fprintf(stderr," Using built-in list\n");
-			return bofhstat(filename,st);}
-		else{
-			fprintf(stderr," Try using '-static'.\n");
-			return 2;}
+		cerr << "Error: " << filename << " could not be opened for read.";
+		if(!nstat)
+		{
+			cerr << " Using built-in list" << endl;
+			return bofhstat(filename,st);
+		}
+		else
+		{
+			cerr << " Try using '-static'." << endl;
+			return 2;
+		}
 	}
-	while ((fscanf_s(datfile,"%63[^\n]\n",templine))!=EOF)
+	while (!datfile.eof())
 	{
-		if(templine[0]!='/' && templine[0]!='\n'){
-	    strcpy_s(st.word[st.pos],templine);
-	    st.pos++;
-	    if (st.pos > 255)
-	    {
-	    	fprintf(stderr,"Error: %s max file length exceeded. Input truncated.\n",filename);
-			break;
-	    }}
+		getline(datfile,templine);
+		// allow comments in the data files
+		if(templine[0]!='/' && templine[0]!='\n' && templine[0]!='#' && templine[0]!=';')
+		{
+			st.word.push_back(templine);
+		}
 	}
-	fclose(datfile);
+	datfile.close();
 
 	return 0;
 }
@@ -336,8 +338,11 @@ int main (int argc, char *argv[])
 	wordlist two;
 	wordlist three;
 	wordlist four;
-	char list1[15]="bofh1.dat",list2[15]="bofh2.dat",list3[15]="bofh3.dat",list4[15]="bofh4.dat";
-	four.pos=0;
+	string list1 = "bofh1.dat";
+	string list2 = "bofh2.dat";
+	string list3 = "bofh3.dat";
+	string list4 = "bofh4.dat";
+//	four.pos=0;
 	#ifdef dumb
 	bool dumb=true;
 	#else
@@ -354,19 +359,19 @@ int main (int argc, char *argv[])
 			dumb=false;
 		else if(strcmp(argv[1],"-h")==0 || strcmp(argv[1],"--help")==0 || strcmp(argv[1],"/?")==0)
 		{
-			printf("BOFH EXCUSE GENERATOR\nCreated by Mason Heller\n\n");
-			printf("The idea and all included words come from the official BOFH website at");
-			printf("\nhttp://bofh.ntk.net/\n");
-			printf("This program is freeware. Use and distribute as you please.\n");
-			printf("For the full source, email me at masonph@gmail.com\n\n");
-			printf("USAGE:\n\nRunning bofh with no arguments returns a random BOFH excuse");
-			printf("\n\nbofh -dumb | bofh -ndumb\n");
-			printf("Activates or deactivates optional fourth word, respectively\n\n");
-			printf("bofh -static       | bofh -nstatic         | bofh -nostatic\n");
-			printf("Use built-in lists | Default to data files | Disable built-in lists.\n\n");
-			printf("bofh --dump\nDumps the builtin lists to data files\n\n");
-			printf("bofh -h | bofh --help | bofh /?\nShow this help text and quit");
-			printf("\n");
+			cout << "BOFH EXCUSE GENERATOR\nCreated by Mason Heller\n\n"
+			<< "The idea and all included words come from the official BOFH website at";
+			<< "\nhttp://bofh.ntk.net/\n"
+			<< "This program is freeware. Use and distribute as you please.\n"
+			<< "For the full source, email me at masonph@gmail.com\n\n"
+			<< "USAGE:\n\nRunning bofh with no arguments returns a random BOFH excuse"
+			<< "\n\nbofh -dumb | bofh -ndumb\n"
+			<< "Activates or deactivates optional fourth word, respectively\n\n"
+			<< "bofh -static       | bofh -nstatic         | bofh -nostatic\n"
+			<< "Use built-in lists | Default to data files | Disable built-in lists.\n\n"
+			<< "bofh --dump\nDumps the builtin lists to data files\n\n"
+			<< "bofh -h | bofh --help | bofh /?\nShow this help text and quit"
+			<< endl;
 			return 0;
 		}
 		else if(strcmp(argv[1],"--dump")==0)
@@ -396,8 +401,8 @@ int main (int argc, char *argv[])
 		else if(strcmp(argv[1],"-np")==0)
 			pauseAtEnd = false;
 		else{
-			printf("Unrecognised argument: '%s'\n",argv[1]);
-			printf("Try 'bofh -h' for a list of valid arguments\n");
+			cerr << "Unrecognised argument: '" << argv[1] << "'\n"
+			<< "Try 'bofh -h' for a list of valid arguments" << endl;
 			return 0;
 		}
 	}
@@ -425,42 +430,68 @@ int main (int argc, char *argv[])
 		else if(strcmp(argv[2],"-np")==0)
 			pauseAtEnd = false;
 		else{
-			fprintf(stderr,"Unrecognised argument: '%s'\n",argv[2]);
+			cerr << "Unrecognised argument: '" << argv[2] << "'" << endl;
 		}
 	}
 	//process lists
-	if(structurise(list1,one)==2){
-		fprintf(stderr,"Fatal Error. Exiting...\n");
-		return 1;}
-	if(structurise(list2,two)==2){
-		fprintf(stderr,"Fatal Error. Exiting...\n");
-		return 1;}
-	if(structurise(list3,three)==2){
-		fprintf(stderr,"Fatal Error. Exiting...\n");
-		return 1;}
+	if(structurise(list1,one)==2)
+	{
+		cerr << "Fatal Error. Exiting..." << endl;
+		return 1;
+	}
+	if(structurise(list2,two)==2)
+	{
+		cerr << "Fatal Error. Exiting..." << endl;
+		return 1;
+	}
+	if(structurise(list3,three)==2)
+	{
+		cerr << "Fatal Error. Exiting..." << endl;
+		return 1;
+	}
 
 
 	if(dumb)	// check if we want the fourth word
-		if(structurise(list4,four)==2){
-			fprintf(stderr,"Fatal Error. Exiting...\n");
-			return 1;}
-	if(!dumb) // set it to output nothing for the fourth word (and give back the space)
+		if(structurise(list4,four)==2)
+		{
+			cerr << "Fatal Error. Exiting..." << endl;
+			return 1;
+		}
+/*	if(!dumb) // set it to output nothing for the fourth word (and give back the space)
 	{
-		four.word[0][0]='\b';	// the last word is a backspace
-		four.pos=1;
+		four.word[0]='\b';	// the last word is a backspace
+//		four.pos=1;
 	}
+*/
 
 	srand(time(NULL));	//seed random so we get unique output each second. this means the program won't work for mass-generating but for normal use it is fine. linux can seed via /dev/urandom but windows has no such device.
 
-	printf("%s %s %s %s\n",
+/*	printf("%s %s %s %s\n",
 		one.word[rand()%one.pos],
 		two.word[rand()%two.pos],
 		three.word[rand()%three.pos],
 		four.word[rand()%four.pos]);	// pick a random word from each list and print them out.
+*/
+	if(dumb)
+		cout << one.word[rand()%one.word.length] << " "
+			<< two.word[rand()%two.word.length] << " "
+			<< three.word[rand()%three.word.length] << " "
+			<< four.word[rand()%four.word.length] << endl;
+	else
+		cout << one.word[rand()%one.word.length] << " "
+			<< two.word[rand()%two.word.length] << " "
+			<< three.word[rand()%three.word.length] << endl;
 #ifdef _INC_CONIO
-	if(pauseAtEnd){
-		printf("\nPress any key to continue...\n");
+	if(pauseAtEnd)
+	{
+		cout << "\nPress any key to continue..." << endl;
 		_getch();
+	}
+#else
+	if(pauseAtEnd)
+	{
+		cout << "\nPress any key to continue..." << endl;
+		cin.get();
 	}
 #endif		
 
