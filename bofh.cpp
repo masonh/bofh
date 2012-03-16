@@ -44,7 +44,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <ctime>
-#include <ctype>
+//#include <ctype>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -259,9 +259,9 @@ int bofhstat(string nothing, wordlist &st)
 	{
 		ofstream outf;
 		outf.open(nothing.c_str());
-		if((outf.is_open())
+		if(outf.is_open())
 		{
-			for(int i=0; i < st.word.length; i++)
+			for(int i=0; i < st.word.size(); i++)
 			{
 				outf << st.word[i] << '\n';
 			}
@@ -360,7 +360,7 @@ int main (int argc, char *argv[])
 		else if(strcmp(argv[1],"-h")==0 || strcmp(argv[1],"--help")==0 || strcmp(argv[1],"/?")==0)
 		{
 			cout << "BOFH EXCUSE GENERATOR\nCreated by Mason Heller\n\n"
-			<< "The idea and all included words come from the official BOFH website at";
+			<< "The idea and all included words come from the official BOFH website at"
 			<< "\nhttp://bofh.ntk.net/\n"
 			<< "This program is freeware. Use and distribute as you please.\n"
 			<< "For the full source, email me at masonph@gmail.com\n\n"
@@ -473,14 +473,14 @@ int main (int argc, char *argv[])
 		four.word[rand()%four.pos]);	// pick a random word from each list and print them out.
 */
 	if(dumb)
-		cout << one.word[rand()%one.word.length] << " "
-			<< two.word[rand()%two.word.length] << " "
-			<< three.word[rand()%three.word.length] << " "
-			<< four.word[rand()%four.word.length] << endl;
+		cout << one.word[rand()%one.word.size()] << " "
+			<< two.word[rand()%two.word.size()] << " "
+			<< three.word[rand()%three.word.size()] << " "
+			<< four.word[rand()%four.word.size()] << endl;
 	else
-		cout << one.word[rand()%one.word.length] << " "
-			<< two.word[rand()%two.word.length] << " "
-			<< three.word[rand()%three.word.length] << endl;
+		cout << one.word[rand()%one.word.size()] << " "
+			<< two.word[rand()%two.word.size()] << " "
+			<< three.word[rand()%three.word.size()] << endl;
 #ifdef _INC_CONIO
 	if(pauseAtEnd)
 	{
@@ -490,7 +490,7 @@ int main (int argc, char *argv[])
 #else
 	if(pauseAtEnd)
 	{
-		cout << "\nPress any key to continue..." << endl;
+		cout << "\nPress return to continue..." << endl;
 		cin.get();
 	}
 #endif		
