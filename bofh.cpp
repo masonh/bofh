@@ -29,8 +29,6 @@
 /* TO DO:
  * Make commandline flags/arguments more gnu-like
  * Redo argument parsing to be more dynamic
- * Now that it's fixed for Windows, recheck in Linux
- * Use C++ features
  */
 
 
@@ -337,7 +335,7 @@ int main (int argc, char *argv[])
 			<< "The idea and all included words come from the official BOFH website at"
 			<< "\nhttp://bofh.ntk.net/\n"
 			<< "This program is freeware. Use and distribute as you please.\n"
-			<< "For the full source, email me at masonph@gmail.com\n\n"
+			<< "Full source is available at http://github.com/masonh/bofh\n\n"
 			<< "USAGE:\n\nRunning bofh with no arguments returns a random BOFH excuse"
 			<< "\n\nbofh -dumb | bofh -ndumb\n"
 			<< "Activates or deactivates optional fourth word, respectively\n\n"
