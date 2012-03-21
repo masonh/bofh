@@ -32,7 +32,7 @@
  */
 
 
-#define bofhstatic
+#define bofhstatic	// default to builtin lists
 //#define dumb
 
 #include <cstdio>
@@ -255,7 +255,6 @@ int bofhstat(string nothing, wordlist &st)
 			cerr << "Error: Could not open file '" << nothing << "' for writing" << endl;
 			return 1;
 		}
-		return 0;
 	}
 
 	return 0;
