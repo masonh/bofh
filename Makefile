@@ -9,13 +9,13 @@ windows32: bofh32.exe
 windows64: windows
 
 bofh: bofh.cpp
-	g++ --std=c++0x -O2 -o $@ bofh.cpp
+	g++ --std=c++0x -s -O2 -o $@ bofh.cpp
 bofh32: bofh.cpp
-	g++ -m32 --std=c++0x -O2 -o $@ bofh.cpp
+	g++ -m32 --std=c++0x -s -O2 -o $@ bofh.cpp
 bofh.exe: bofh.cpp
-	x86_64-w64-mingw32-g++ --std=c++0x -O2 -static -DWIN32 -o $@ bofh.cpp
+	x86_64-w64-mingw32-g++ --std=c++0x -s -O2 -static -DWIN32 -o $@ bofh.cpp
 bofh32.exe: bofh.cpp
-	i686-w64-mingw32-g++ --std=c++0x -O2 -static -DWIN32 -o $@ bofh.cpp
+	i686-w64-mingw32-g++ --std=c++0x -s -O2 -static -DWIN32 -o $@ bofh.cpp
 clean:
 	rm -f bofh bofh.exe bofh32 bofh32.exe
 .PHONY: clean all all32 all64 linux linux32 linux64 windows windows32 windows64
