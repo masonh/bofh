@@ -21,14 +21,14 @@
 /*
  * BUGS:
  *
- * It can only return one unique bofh excuse per second because rand() is
- * seeded with time(), which returns seconds. I don't think this will be an
- * issue for most people, though.
+ * Currently reads the entire wordlist file into memory, which is not good for
+ * very long lists.
  */
 
 /* TO DO:
  * Make commandline flags/arguments more gnu-like
  * Redo argument parsing to be more dynamic
+ * Organise return values
  */
 
 
@@ -41,13 +41,12 @@
 #endif
 #include <cstring>
 #include <cstdlib>
-#include <ctime>
-//#include <ctype>
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <initializer_list>
 #include <string>
+#include <random>
 using namespace std;
 
 bool dump=false;	// default to not output data files
@@ -429,30 +428,38 @@ int main (int argc, char *argv[])
 			return 1;
 		}
 
-	srand(time(NULL));	//seed random so we get unique output each second. this means the program won't work for mass-generating but for normal use it is fine. linux can seed via /dev/urandom but windows has no such device.
+	std::random_device randdev;   // a random device used to seed the Mersenne Twister
+	std::mt19937 rng(randdev());  // the Mersenne Twister with a popular choice of parameters
+
+	// create random distributions for the words
+	std::uniform_int_distribution<uint32_t> uint_dist1(0,one.word.size()-1);
+	std::uniform_int_distribution<uint32_t> uint_dist2(0,two.word.size()-1);
+	std::uniform_int_distribution<uint32_t> uint_dist3(0,three.word.size()-1);
+	std::uniform_int_distribution<uint32_t> uint_dist4(0,four.word.size()-1);
 
 	if(dumb)
-		cout << one.word[rand()%one.word.size()] << " "
-			<< two.word[rand()%two.word.size()] << " "
-			<< three.word[rand()%three.word.size()] << " "
-			<< four.word[rand()%four.word.size()] << endl;
-	else
-		cout << one.word[rand()%one.word.size()] << " "
-			<< two.word[rand()%two.word.size()] << " "
-			<< three.word[rand()%three.word.size()] << endl;
-#ifdef _INC_CONIO
-	if(pauseAtEnd)
 	{
-		cout << "\nPress any key to continue..." << endl;
-		_getch();
+		cout << one.word[uint_dist1(rng)] << " "
+			<< two.word[uint_dist2(rng)] << " "
+			<< three.word[uint_dist3(rng)] << " "
+			<< four.word[uint_dist4(rng)] << endl;
 	}
-#else
+	else
+	{
+		cout << one.word[uint_dist1(rng)] << " "
+			<< two.word[uint_dist2(rng)] << " "
+			<< three.word[uint_dist3(rng)] << endl;
+	}
+
 	if(pauseAtEnd)
 	{
 		cout << "\nPress return to continue..." << endl;
+#ifdef _INC_CONIO
+		_getch();
+#else
 		cin.get();
-	}
 #endif		
+	}
 
 	return 0;
 }
