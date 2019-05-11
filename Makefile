@@ -1,8 +1,12 @@
 CXX ?= g++
 CC ?= g++
 LD ?= g++
+CPPFLAGS := ${CPPFLAGS}
+CPPFLAGS += -fpie
 CXXFLAGS := ${CXXFLAGS} ${CCFLAGS}
-CXXFLAGS += --std=c++0x -s -O2
+CXXFLAGS += --std=c++0x -s -O2 -Wall
+LDFLAGS := ${LDFLAGS}
+LDFLAGS += -pie
 PREFIX ?= /usr/local
 BINDIR ?= ${PREFIX}/bin
 DATADIR ?= ${PREFIX}/share
@@ -20,13 +24,13 @@ windows32: bofh32.exe
 windows64: windows
 
 bofh: bofh.cpp
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -o $@ bofh.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${LDFLAGS} -o $@ bofh.cpp
 bofh32: bofh.cpp
-	${CXX} ${CPPFLAGS} -m32 ${CXXFLAGS} -o $@ bofh.cpp
+	${CXX} ${CPPFLAGS} -m32 ${CXXFLAGS} ${LDFLAGS} -o $@ bofh.cpp
 bofh.exe: bofh.cpp
-	x86_64-w64-mingw32-g++ ${CPPFLAGS} ${CXXFLAGS} -static -DWIN32 -o $@ bofh.cpp
+	x86_64-w64-mingw32-g++ ${CPPFLAGS} ${CXXFLAGS} ${LDFLAGS} -static -DWIN32 -o $@ bofh.cpp
 bofh32.exe: bofh.cpp
-	i686-w64-mingw32-g++ ${CPPFLAGS} ${CXXFLAGS} -static -DWIN32 -o $@ bofh.cpp
+	i686-w64-mingw32-g++ ${CPPFLAGS} ${CXXFLAGS} ${LDFLAGS} -static -DWIN32 -o $@ bofh.cpp
 clean:
 	rm -f bofh bofh.exe bofh32 bofh32.exe
 install:
