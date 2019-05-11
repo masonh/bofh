@@ -240,7 +240,7 @@ int bofhstat(string nothing, wordlist &st)
 		outf.open(nothing.c_str());
 		if(outf.is_open())
 		{
-			for(int i=0; i < st.word.size(); i++)
+			for(wordlist::size_type i=0; i < st.size(); i++)
 			{
 				outf << st[i] << '\n';
 			}
