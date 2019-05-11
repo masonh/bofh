@@ -59,16 +59,13 @@ bool bstat=false;
 bool nstat=false;
 
 
-struct wordlist
-{
-	vector<string> word;
-};
+typedef vector<string> wordlist;
 
 int bofhstat(string nothing, wordlist &st)
 {
 	if(nothing == "bofh1.dat") // list 1
 	{
-		st.word = {
+		st = {
 			"Temporary",
 			"Intermittant",
 			"Partial",
@@ -127,7 +124,7 @@ int bofhstat(string nothing, wordlist &st)
 	}
 	else if(nothing == "bofh2.dat") // list 2
 	{
-		st.word = {
+		st = {
 			"Array",
 			"Systems",
 			"Hardware",
@@ -186,7 +183,7 @@ int bofhstat(string nothing, wordlist &st)
 	}
 	else if(nothing == "bofh3.dat") // list 3
 	{
-		st.word = {
+		st = {
 			"Interruption",
 			"Destabilisation",
 			"Destruction",
@@ -223,7 +220,7 @@ int bofhstat(string nothing, wordlist &st)
 	}
 	else if(nothing == "bofh4.dat") // list 4
 	{
-		st.word = {
+		st = {
 			"Error",
 			"Problem",
 			"Warning",
@@ -245,7 +242,7 @@ int bofhstat(string nothing, wordlist &st)
 		{
 			for(int i=0; i < st.word.size(); i++)
 			{
-				outf << st.word[i] << '\n';
+				outf << st[i] << '\n';
 			}
 			outf.close();
 		}
@@ -289,7 +286,7 @@ int structurise(string filename, wordlist &st)
 		// allow comments in the data files
 		if(templine[0]!='/' && templine[0]!='\n' && templine[0]!='#' && templine[0]!=';')
 		{
-			st.word.push_back(templine);
+			st.push_back(templine);
 		}
 	}
 	datfile.close();
@@ -304,7 +301,7 @@ int main (int argc, char *argv[])
 #else
 	bool pauseAtEnd = false;
 #endif
-	
+
 	wordlist one;
 	wordlist two;
 	wordlist three;
@@ -432,23 +429,23 @@ int main (int argc, char *argv[])
 	std::mt19937 rng(randdev());  // the Mersenne Twister with a popular choice of parameters
 
 	// create random distributions for the words
-	std::uniform_int_distribution<uint32_t> uint_dist1(0,one.word.size()-1);
-	std::uniform_int_distribution<uint32_t> uint_dist2(0,two.word.size()-1);
-	std::uniform_int_distribution<uint32_t> uint_dist3(0,three.word.size()-1);
-	std::uniform_int_distribution<uint32_t> uint_dist4(0,four.word.size()-1);
+	std::uniform_int_distribution<uint32_t> uint_dist1(0,one.size()-1);
+	std::uniform_int_distribution<uint32_t> uint_dist2(0,two.size()-1);
+	std::uniform_int_distribution<uint32_t> uint_dist3(0,three.size()-1);
+	std::uniform_int_distribution<uint32_t> uint_dist4(0,four.size()-1);
 
 	if(dumb)
 	{
-		cout << one.word[uint_dist1(rng)] << " "
-			<< two.word[uint_dist2(rng)] << " "
-			<< three.word[uint_dist3(rng)] << " "
-			<< four.word[uint_dist4(rng)] << endl;
+		cout << one[uint_dist1(rng)] << " "
+			<< two[uint_dist2(rng)] << " "
+			<< three[uint_dist3(rng)] << " "
+			<< four[uint_dist4(rng)] << endl;
 	}
 	else
 	{
-		cout << one.word[uint_dist1(rng)] << " "
-			<< two.word[uint_dist2(rng)] << " "
-			<< three.word[uint_dist3(rng)] << endl;
+		cout << one[uint_dist1(rng)] << " "
+			<< two[uint_dist2(rng)] << " "
+			<< three[uint_dist3(rng)] << endl;
 	}
 
 	if(pauseAtEnd)
@@ -458,7 +455,7 @@ int main (int argc, char *argv[])
 		_getch();
 #else
 		cin.get();
-#endif		
+#endif
 	}
 
 	return 0;
